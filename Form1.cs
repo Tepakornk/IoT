@@ -1,3 +1,6 @@
+using Microsoft.VisualBasic.Logging;
+using System.Runtime.CompilerServices;
+
 namespace IoT
 {
 
@@ -107,5 +110,36 @@ namespace IoT
 
     }
 
+
+}
+
+
+namespace CppOnesp32
+{
+
+    void setup()
+    {
+        Serial.begin(115200);
+        pinMode(5, OUTPUT); // Gate control pin
+    }
+
+    void loop()
+    {
+        if (Serial.available())
+        {
+            String cmd = Serial.readStringUntil('\n');
+
+            if (cmd == "ALLOW")
+            {
+                digitalWrite(5, HIGH);  // Open gate
+                delay(3000);            // Wait 3 seconds
+                digitalWrite(5, LOW);   // Close gate
+            }
+            else if (cmd == "DENY")
+            {
+                // Optionally blink LED or log denied access
+            }
+        }
+    }
 
 }
